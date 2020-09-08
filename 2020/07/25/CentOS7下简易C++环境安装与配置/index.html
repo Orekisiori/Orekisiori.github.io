@@ -4,7 +4,7 @@
 
 <head>
   
-  <title>categories - Siori&#39;s blog</title>
+  <title>CentOS7下简易C++环境安装与配置 - Siori&#39;s blog</title>
   <meta charset="UTF-8">
   <meta name="description" content="志存高远，脚踏实地">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
@@ -12,20 +12,22 @@
   
 
   <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/Orekisiori/Orekisiori.github.io/Images/favicon.ico" type="image/png" />
-  <meta name="description" content="志存高远，脚踏实地">
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+  <meta name="description" content="CentOS7下简易C++环境安装与配置创建好虚拟机，配置好网卡后即可在终端进行配置yum命令配置更新 [root@localhost share]# yum install -y epel-release yum update yum下载加速插件 sudo yum install yum-axelget 开发工具包 sudo yum groupinstall &quot;Development">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS7下简易C++环境安装与配置">
+<meta property="og:url" content="http://yoursite.com/2020/07/25/CentOS7%E4%B8%8B%E7%AE%80%E6%98%93C++%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/index.html">
 <meta property="og:site_name" content="Siori&#39;s blog">
-<meta property="og:description" content="志存高远，脚踏实地">
+<meta property="og:description" content="CentOS7下简易C++环境安装与配置创建好虚拟机，配置好网卡后即可在终端进行配置yum命令配置更新 [root@localhost share]# yum install -y epel-release yum update yum下载加速插件 sudo yum install yum-axelget 开发工具包 sudo yum groupinstall &quot;Development">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-04-26T22:45:24.000Z">
-<meta property="article:modified_time" content="2020-04-26T07:46:28.919Z">
+<meta property="article:published_time" content="2020-07-24T19:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-08T04:26:26.497Z">
 <meta property="article:author" content="OrekiSiori">
+<meta property="article:tag" content="C&#x2F;C++">
+<meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
   
-  <!--<link rel="stylesheet" href="/css/style.css?v=1599539529210">-->
+  <!--<link rel="stylesheet" href="/css/style.css?v=1599539529221">-->
 
   
 <meta name="generator" content="Hexo 4.2.0"></head>
@@ -135,14 +137,14 @@
         <div class="nexmoe-post">
   
       <div class="nexmoe-post-cover" style="padding-bottom: 66.66666666666666%;"> 
-          <img data-src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/cover/5c3aec85a4343.jpg" data-sizes="auto" alt="categories" class="lazyload">
-          <h1>categories</h1>
+          <img data-src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/cover/5c3aec85a4343.jpg" data-sizes="auto" alt="CentOS7下简易C++环境安装与配置" class="lazyload">
+          <h1>CentOS7下简易C++环境安装与配置</h1>
       </div>
   
   
   <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
-    <a><i class="nexmoefont icon-calendar-fill"></i>2020年04月26日</a>
-    <a><i class="nexmoefont icon-areachart"></i>0 字</a>
+    <a><i class="nexmoefont icon-calendar-fill"></i>2020年07月24日</a>
+    <a><i class="nexmoefont icon-areachart"></i>144 字</a>
     <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
 </div>
 
@@ -151,11 +153,31 @@
   </div>
 
   <article>
-    
+    <h2 id="CentOS7下简易C-环境安装与配置"><a href="#CentOS7下简易C-环境安装与配置" class="headerlink" title="CentOS7下简易C++环境安装与配置"></a>CentOS7下简易C++环境安装与配置</h2><h3 id="创建好虚拟机，配置好网卡后即可在终端进行配置"><a href="#创建好虚拟机，配置好网卡后即可在终端进行配置" class="headerlink" title="创建好虚拟机，配置好网卡后即可在终端进行配置"></a>创建好虚拟机，配置好网卡后即可在终端进行配置</h3><p>yum命令配置更新</p>
+<pre><code class="xml">[root@localhost share]# yum install -y epel-release
+yum update</code></pre>
+<p>yum下载加速插件</p>
+<pre><code class="xml">sudo yum install yum-axelget</code></pre>
+<p>开发工具包</p>
+<pre><code class="xml">sudo yum groupinstall &quot;Development tools&quot;</code></pre>
+<p>补充未下载的相关组件</p>
+<pre><code class="xml">sudo yum install gcc                     # C 编译器
+sudo yum install gcc-c++                 # C++ 编译器
+sudo yum install gdb                     # 代码调试器
+sudo yum install clang                      # clang 编译器
+sudo yum install clang-analyzer          # clang 静态分析器
+sudo yum install make                   </code></pre>
+<p>codeblocks，基础的C++编辑IDE</p>
+<pre><code class="xml">sudo yum install codeblocks</code></pre>
+
   </article>
 
   <div class="nexmoe-post-meta nexmoe-rainbow">
     
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/Tech/">Tech</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -link" href="/tags/C-C/" rel="tag">C/C++</a> <a class="nexmoefont icon-tag-fill -link" href="/tags/Linux/" rel="tag">Linux</a>
     
 </div>
 
@@ -164,7 +186,7 @@
       
   <div class="nexmoe-post-copyright">
     <strong>本文作者：</strong>OrekiSiori<br>
-    <strong>本文链接：</strong><a href="http://yoursite.com/categories/index.html" title="http:&#x2F;&#x2F;yoursite.com&#x2F;categories&#x2F;index.html" target="_blank" rel="noopener">http:&#x2F;&#x2F;yoursite.com&#x2F;categories&#x2F;index.html</a><br>
+    <strong>本文链接：</strong><a href="http://yoursite.com/2020/07/25/CentOS7%E4%B8%8B%E7%AE%80%E6%98%93C++%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" title="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;07&#x2F;25&#x2F;CentOS7%E4%B8%8B%E7%AE%80%E6%98%93C++%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;07&#x2F;25&#x2F;CentOS7%E4%B8%8B%E7%AE%80%E6%98%93C++%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE&#x2F;</a><br>
     
       <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
     
@@ -194,7 +216,7 @@
   </div>
   <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<!--<script src="/js/app.js?v=1599539529212"></script>-->
+<!--<script src="/js/app.js?v=1599539529223"></script>-->
 
 
     <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>

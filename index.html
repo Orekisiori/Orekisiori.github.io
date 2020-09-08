@@ -11,7 +11,7 @@
   
   
 
-  <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
+  <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/Orekisiori/Orekisiori.github.io/Images/favicon.ico" type="image/png" />
   <meta name="description" content="志存高远，脚踏实地">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Siori&#39;s blog">
@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
   
-  <!--<link rel="stylesheet" href="/css/style.css?v=1599532960099">-->
+  <!--<link rel="stylesheet" href="/css/style.css?v=1599539529241">-->
 
   
 <meta name="generator" content="Hexo 4.2.0"></head>
@@ -49,9 +49,9 @@
         </a>
     </div>
     <div class="nexmoe-count">
-        <div><span>文章</span>4</div>
-        <div><span>标签</span>2</div>
-        <div><span>分类</span>2</div>
+        <div><span>文章</span>8</div>
+        <div><span>标签</span>3</div>
+        <div><span>分类</span>1</div>
     </div>
     <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
         
@@ -98,15 +98,8 @@
         
 
         <li class="category-list-item">
-          <a class="category-list-link" href="/categories/Essay/">Essay</a>
-          <span class="category-list-count">1</span>
-        </li>
-
-        
-
-        <li class="category-list-item">
           <a class="category-list-link" href="/categories/Tech/">Tech</a>
-          <span class="category-list-count">3</span>
+          <span class="category-list-count">7</span>
         </li>
 
         
@@ -121,7 +114,7 @@
   <div class="nexmoe-widget-wrap">
     <h3 class="nexmoe-widget-title">标签云</h3>
     <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
-      <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/java/" style="font-size: 20px;">java</a>
+      <a href="/tags/C-C/" style="font-size: 10px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/java/" style="font-size: 20px;">java</a>
     </div>
     
   </div>
@@ -138,6 +131,499 @@
   <div id="nexmoe-content">
     <div class="nexmoe-primary">
         <section class="nexmoe-posts">
+    
+    <div class="nexmoe-post">
+        <a href="/2020/08/19/spring%E5%9F%BA%E7%A1%80--AOP%E4%B8%8E%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">
+            
+                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 66.66666666666666%;"> 
+                    <img data-src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/cover/5c3aec85a4343.jpg" data-sizes="auto" alt="spring基础--AOP与动态代理" class="lazyload">
+                    <h1>spring基础--AOP与动态代理</h1>
+                </div>
+            
+        </a>
+
+        <div class="nexmoe-post-meta nexmoe-rainbow">
+            <a><i class="nexmoefont icon-calendar-fill"></i>2020年08月18日</a>
+            <a><i class="nexmoefont icon-areachart"></i>486 字</a>
+            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 2 分钟</a>
+        </div>
+
+        <article>
+            
+                <h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p><em>代理处理器</em></p>
+<pre><code class="java">import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
+public class ProxyInvocationHandler implements InvocationHandler {
+    //被代理接口
+    private Object target;
+    //设置被代理对象
+    public void setTarget(Object target) {
+        this.target = target;
+    }
+    //获取代理对象
+    public Object getProxy(){
+        return Proxy.newProxyInstance(this.getClass().getClassLoader(),
+                target.getClass().getInterfaces(),
+                this);
+    }
+    //处理代理实例返回结果（调用被代理对象方法时执行）
+    @Override
+    public Object invoke(Object o, Method method, Object[] objects) throws Throwable {
+        //动态代理本质就是使用反射机制
+        return method.invoke(target, objects);
+    }
+}
+</code></pre>
+<p><em>代理实现实例</em></p>
+<pre><code class="java">public class Client {
+    public static void main(String[] args) {
+        UserServiceImpl userService = new UserServiceImpl();
+
+        ProxyInvocationHandler pih = new ProxyInvocationHandler();
+
+        pih.setTarget(userService);
+
+        UserService proxy = (UserService) pih.getProxy();
+
+        proxy.delete();
+    }
+}
+</code></pre>
+<p><em>AOP配置相关</em></p>
+<pre><code class="xml">    &lt;!-- 方式一，原生Spring的AOP接口--&gt;
+    &lt;!-- 配置AOP--&gt;
+    &lt;aop:config&gt;
+        &lt;!-- 设置pointcut--&gt;
+        &lt;aop:pointcut id=&quot;pointcut&quot; expression=&quot;execution(* com.oreki.service.UserServiceImpl.*(..))&quot;/&gt;
+
+        &lt;!-- 执行环绕增加--&gt;
+        &lt;aop:advisor advice-ref=&quot;beforelog&quot; pointcut-ref=&quot;pointcut&quot;/&gt;
+        &lt;aop:advisor advice-ref=&quot;afterlog&quot; pointcut-ref=&quot;pointcut&quot;/&gt;
+    &lt;/aop:config&gt;    </code></pre>
+<pre><code class="xml">&lt;!-- 方式二，注解实现AOP--&gt;
+    &lt;bean id=&quot;annotationpointcut&quot; class=&quot;com.oreki.annotation.AnnotationPointCut&quot;/&gt;</code></pre>
+<pre><code class="java">//切面类实例
+package com.oreki.annotation;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+
+@Aspect//声明这个类是一个切面
+public class AnnotationPointCut {
+    @Before(&quot;execution(* com.oreki.service.UserServiceImpl.*(..))&quot;)
+    public void before(){
+            System.out.println(&quot;====执行方法前====&quot;);
+        }
+
+    @AfterReturning(&quot;execution(* com.oreki.service.UserServiceImpl.*(..))&quot;)
+    public void after(){
+        System.out.println(&quot;====方法执行后====&quot;);
+    }
+    @Around(&quot;execution(* com.oreki.service.UserServiceImpl.*(..))&quot;)
+    public Object around(ProceedingJoinPoint jp) throws Throwable {
+        System.out.println(&quot;环绕前&quot;);
+
+        Signature signature = jp.getSignature();
+
+        System.out.println(signature);
+
+        Object proceed = jp.proceed();
+
+        System.out.println(&quot;环绕后&quot;);
+        return proceed;
+    }
+}
+</code></pre>
+<blockquote>
+<p>执行结果如下</p>
+</blockquote>
+<p><img data-sizes="auto" data-src="C:%5CUsers%5CHP%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200818020236851.png" alt="image-20200818020236851" class="lazyload"></p>
+<pre><code class="xml">&lt;!-- 方法三，自定义切面类，xml中自行配置切面、切点和通信--&gt;</code></pre>
+<p><strong>pointcut:即切面执行的范围</strong><br><strong>aspect:即切入的那么一个主要用来调用方法的类，起个名字，比如可执行类？</strong><br><strong>advisor:被切入的方法</strong></p>
+
+            
+        </article>
+    </div>
+    
+    <div class="nexmoe-post">
+        <a href="/2020/08/17/spring%E5%9F%BA%E7%A1%80--IOC%E4%B8%8E%E6%B3%A8%E5%85%A5/">
+            
+                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 66.66666666666666%;"> 
+                    <img data-src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/cover/5c3aec85a4343.jpg" data-sizes="auto" alt="spring基础--IOC与依赖注入" class="lazyload">
+                    <h1>spring基础--IOC与依赖注入</h1>
+                </div>
+            
+        </a>
+
+        <div class="nexmoe-post-meta nexmoe-rainbow">
+            <a><i class="nexmoefont icon-calendar-fill"></i>2020年08月16日</a>
+            <a><i class="nexmoefont icon-areachart"></i>1.7k 字</a>
+            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 9 分钟</a>
+        </div>
+
+        <article>
+            
+                <h4 id="applicationContext-xml头部配置"><a href="#applicationContext-xml头部配置" class="headerlink" title="applicationContext.xml头部配置"></a>applicationContext.xml头部配置</h4><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+&lt;/beans&gt;</code></pre>
+<h4 id="容器使用"><a href="#容器使用" class="headerlink" title="容器使用"></a>容器使用</h4><pre><code class="java">// create and configure beans
+ApplicationContext context = new ClassPathXmlApplicationContext(&quot;services.xml&quot;, &quot;daos.xml&quot;);
+
+// retrieve configured instance
+PetStoreService service = context.getBean(&quot;petStore&quot;, PetStoreService.class);
+
+// use configured instance
+List&lt;String&gt; userList = service.getUsernameList();</code></pre>
+<h4 id="IOC创建对象"><a href="#IOC创建对象" class="headerlink" title="IOC创建对象"></a>IOC创建对象</h4><p>1.使用无参构造，对应property&lt;name=” “,value=” “&gt;构造<br>2.有参构造，对应constructor-arg构造，有index、type（引用类型使用全限定名、易引起混乱）、变量名三种形式<br>3.默认的单例模式下，配置文件加载时spring会根据id与全限定类名创建唯一份的实例（全局）</p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>1.别名</p>
+<pre><code class="xml">&lt;bean id=&quot;student&quot; class=&quot;com.oreki.pojo.Student&quot; alias=&quot;学生&quot;&gt;
+        &lt;property name=&quot;name&quot; value=&quot;栞&quot;/&gt;
+&lt;/bean&gt;</code></pre>
+<p>2.bean,id是唯一标识符，name相当于加强的别名</p>
+<pre><code class="xml">&lt;bean id=&quot;student&quot; class=&quot;com.oreki.pojo.Student&quot; name=&quot;学生 xuesheng,student2;STUDENT&quot;&gt;
+        &lt;property name=&quot;name&quot; value=&quot;栞&quot;/&gt;
+&lt;/bean&gt;</code></pre>
+<p>3.import,用来团队个人编写的xml导入到总配置文件applicationContext.xml</p>
+<pre><code class="xml">&lt;import resoure=&quot;bean1.xml&quot;/&gt;
+&lt;import resoure=&quot;bean2.xml&quot;/&gt;</code></pre>
+<h2 id="DI-Dependency-Injection-依赖注入"><a href="#DI-Dependency-Injection-依赖注入" class="headerlink" title="DI(Dependency Injection)依赖注入"></a>DI(Dependency Injection)依赖注入</h2><h3 id="1-构造器注入-Constructor-Argument-Resolution"><a href="#1-构造器注入-Constructor-Argument-Resolution" class="headerlink" title="1.构造器注入(Constructor Argument Resolution)"></a>1.构造器注入(Constructor Argument Resolution)</h3><pre><code class="xml">&lt;!-- Constructor argument type matching--&gt;
+&lt;bean id=&quot;exampleBean&quot; class=&quot;examples.ExampleBean&quot;&gt;
+    &lt;constructor-arg type=&quot;int&quot; value=&quot;7500000&quot;/&gt;
+    &lt;constructor-arg type=&quot;java.lang.String&quot; value=&quot;42&quot;/&gt;
+&lt;/bean&gt;
+
+&lt;!-- Constructor argument index--&gt;
+&lt;bean id=&quot;exampleBean&quot; class=&quot;examples.ExampleBean&quot;&gt;
+    &lt;constructor-arg index=&quot;0&quot; value=&quot;7500000&quot;/&gt;
+    &lt;constructor-arg index=&quot;1&quot; value=&quot;42&quot;/&gt;
+&lt;/bean&gt;
+
+&lt;!-- Constructor argument name--&gt;
+&lt;bean id=&quot;exampleBean&quot; class=&quot;examples.ExampleBean&quot;&gt;
+    &lt;constructor-arg name=&quot;years&quot; value=&quot;7500000&quot;/&gt;
+    &lt;constructor-arg name=&quot;ultimateAnswer&quot; value=&quot;42&quot;/&gt;
+&lt;/bean&gt;</code></pre>
+<h3 id="2-Set方式注入【重点】"><a href="#2-Set方式注入【重点】" class="headerlink" title="2.Set方式注入【重点】"></a>2.Set方式注入【重点】</h3><pre><code class="xml">&lt;bean id=&quot;address&quot; class=&quot;com.oreki.pojo.Address&quot;&gt;
+        &lt;property name=&quot;address&quot; value=&quot;贵阳&quot;/&gt;
+    &lt;/bean&gt;
+
+    &lt;bean id=&quot;student&quot; class=&quot;com.oreki.pojo.Student&quot;&gt;
+        &lt;!-- 普通值注入，value--&gt;
+        &lt;property name=&quot;name&quot; value=&quot;栞&quot;/&gt;
+
+        &lt;!-- Bean注入，ref--&gt;
+        &lt;property name=&quot;address&quot; ref=&quot;address&quot;/&gt;
+
+        &lt;!-- 数组注入--&gt;
+        &lt;property name=&quot;books&quot;&gt;
+            &lt;array&gt;
+                &lt;value&gt;《红楼》&lt;/value&gt;
+                &lt;value&gt;《水浒》&lt;/value&gt;
+                &lt;value&gt;《三国》&lt;/value&gt;
+                &lt;value&gt;《西游》&lt;/value&gt;
+            &lt;/array&gt;
+        &lt;/property&gt;
+
+        &lt;!-- List--&gt;
+        &lt;property name=&quot;hobbies&quot;&gt;
+            &lt;list&gt;
+                &lt;value&gt;Music&lt;/value&gt;
+                &lt;value&gt;Movie&lt;/value&gt;
+                &lt;value&gt;Coding&lt;/value&gt;
+                &lt;value&gt;Reading&lt;/value&gt;
+            &lt;/list&gt;
+        &lt;/property&gt;
+
+        &lt;!-- Map--&gt;
+        &lt;property name=&quot;cards&quot;&gt;
+            &lt;map&gt;
+                &lt;entry key=&quot;ID Card&quot; value=&quot;xxxxxx-xxxxxxxx-xxxx&quot;/&gt;
+                &lt;entry key=&quot;Credit Card&quot; value=&quot;xxxx-xxxx-xxxx-xxxx&quot;/&gt;
+                &lt;entry key=&quot;Bus Card&quot; value=&quot;xxxxxx&quot;/&gt;
+            &lt;/map&gt;
+        &lt;/property&gt;
+
+        &lt;!-- Set--&gt;
+        &lt;property name=&quot;games&quot;&gt;
+            &lt;set&gt;
+                &lt;value&gt;OverWatch&lt;/value&gt;
+                &lt;value&gt;Ryza&lt;/value&gt;
+                &lt;value&gt;LOL&lt;/value&gt;
+                &lt;value&gt;The Witcher&lt;/value&gt;
+            &lt;/set&gt;
+        &lt;/property&gt;
+
+        &lt;!-- null--&gt;
+        &lt;property name=&quot;wife&quot;&gt;
+            &lt;null/&gt;
+        &lt;/property&gt;
+
+        &lt;!-- Properties--&gt;
+        &lt;property name=&quot;info&quot;&gt;
+            &lt;props &gt;
+                &lt;prop key=&quot;学号&quot;&gt;201800301082&lt;/prop&gt;
+                &lt;prop key=&quot;姓名&quot;&gt;男&lt;/prop&gt;
+            &lt;/props&gt;
+        &lt;/property&gt;
+
+    &lt;/bean&gt;</code></pre>
+<h3 id="3-拓展的注入方式"><a href="#3-拓展的注入方式" class="headerlink" title="3.拓展的注入方式"></a>3.拓展的注入方式</h3><p>p命名空间(是set注入的一种简化)</p>
+<pre><code class="xml">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+
+    &lt;bean name=&quot;john-classic&quot; class=&quot;com.example.Person&quot;&gt;
+        &lt;property name=&quot;name&quot; value=&quot;John Doe&quot;/&gt;
+        &lt;property name=&quot;spouse&quot; ref=&quot;jane&quot;/&gt;
+    &lt;/bean&gt;
+
+    &lt;bean name=&quot;john-modern&quot;
+        class=&quot;com.example.Person&quot;
+        p:name=&quot;John Doe&quot;
+        p:spouse-ref=&quot;jane&quot;/&gt;
+
+    &lt;!-- 可直接注入属性值--&gt;
+    &lt;bean name=&quot;jane&quot; class=&quot;com.example.Person&quot;&gt;
+        &lt;property name=&quot;name&quot; value=&quot;Jane Doe&quot;/&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;</code></pre>
+<p>c命名空间(是constructor注入的简化)</p>
+<pre><code class="xml">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:c=&quot;http://www.springframework.org/schema/c&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+
+    &lt;bean id=&quot;beanTwo&quot; class=&quot;x.y.ThingTwo&quot;/&gt;
+    &lt;bean id=&quot;beanThree&quot; class=&quot;x.y.ThingThree&quot;/&gt;
+
+    &lt;!-- traditional declaration with optional argument names --&gt;
+    &lt;bean id=&quot;beanOne&quot; class=&quot;x.y.ThingOne&quot;&gt;
+        &lt;constructor-arg name=&quot;thingTwo&quot; ref=&quot;beanTwo&quot;/&gt;
+        &lt;constructor-arg name=&quot;thingThree&quot; ref=&quot;beanThree&quot;/&gt;
+        &lt;constructor-arg name=&quot;email&quot; value=&quot;something@somewhere.com&quot;/&gt;
+    &lt;/bean&gt;
+
+    &lt;!-- c-namespace declaration with argument names --&gt;
+    &lt;bean id=&quot;beanOne&quot; class=&quot;x.y.ThingOne&quot; c:thingTwo-ref=&quot;beanTwo&quot;
+        c:thingThree-ref=&quot;beanThree&quot; c:email=&quot;something@somewhere.com&quot;/&gt;
+
+&lt;/beans&gt;</code></pre>
+<h3 id="4-bean-scopes"><a href="#4-bean-scopes" class="headerlink" title="4.bean scopes"></a>4.bean scopes</h3><p><img data-sizes="auto" data-src="C:%5CUsers%5CHP%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200815151214273.png" alt="image-20200815151214273" class="lazyload"></p>
+<p><em>单例模式,spring默认模式，每个bean只创建一个对象</em></p>
+<pre><code class="xml">&lt;bean id=&quot;accountService&quot; class=&quot;com.something.DefaultAccountService&quot; scope=&quot;singleton&quot;/&gt;</code></pre>
+<p><em>原型模式，每次getBean都会得到一个新的对象</em></p>
+<pre><code class="XML">&lt;bean id=&quot;accountService&quot; class=&quot;com.something.DefaultAccountService&quot; scope=&quot;prototype&quot;/&gt;</code></pre>
+<p><em>request,session,application,websocket仅运用于web开发中</em></p>
+<h2 id="Bean自动装配"><a href="#Bean自动装配" class="headerlink" title="Bean自动装配"></a>Bean自动装配</h2><pre><code class="xml">    &lt;bean class=&quot;com.oreki.pojo.Cat&quot;/&gt;
+    &lt;bean class=&quot;com.oreki.pojo.Dog&quot;/&gt;
+
+    &lt;!--
+        byName:在xml的上下文中查找与预设对象名一致的beanid
+        byType:根据类名查找，要求类名唯一
+    --&gt;
+    &lt;bean id=&quot;person&quot; class=&quot;com.oreki.pojo.Person&quot;&gt;
+        &lt;property name=&quot;name&quot; value=&quot;栞&quot;/&gt;
+    &lt;/bean&gt;</code></pre>
+<h3 id="注解实现自动装配"><a href="#注解实现自动装配" class="headerlink" title="注解实现自动装配"></a>注解实现自动装配</h3><p>1.导入contex约束</p>
+<p>2.配置注解支持</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+
+    &lt;context:annotation-config/&gt;
+
+&lt;/beans&gt;</code></pre>
+<p>@Autowired,默认type注入，require用于表示实例可能不存在</p>
+<pre><code class="java">@Autowired(required = false)  
+@Qualifier(&quot;userServiceImpl&quot;)   
+public IUserService userService;  </code></pre>
+<p>@Resource,默认name注入，后寻找type</p>
+<pre><code class="java">@Resource(name=&quot;baseDao&quot;)
+privateBaseDao baseDao;</code></pre>
+<p>@Componet,用于指定扫描包，相当于被spring管理了，等价于一个bean，但不仅声明，还完成了实现</p>
+<pre><code class="xml">&lt;context:component-scan base-package=&quot;&quot;/&gt;</code></pre>
+<ul>
+<li>Component的三个衍生注解<ul>
+<li>dao：【@Respository】</li>
+<li>service：【@Service】</li>
+<li>controller：【@Controller】</li>
+</ul>
+</li>
+<li>这四个annotation作用是相同的</li>
+</ul>
+<p>@Value，用于注入属性(值)</p>
+<pre><code class="java">
+@Component
+public class MovieRecommender {
+
+    private final String catalog;
+
+    public MovieRecommender(@Value(&quot;${catalog.name}&quot;) String catalog) {
+        this.catalog = catalog;
+    }
+}</code></pre>
+<p>@Scope</p>
+<pre><code class="java"> @Scope(&quot;proprtype&quot;)</code></pre>
+<p>但直接在类中注解装配，由于只能在当前类中使用，实际上是增强了程序的耦合性，与spring的初衷相违，关于其与xml配bean中有公认的最佳实践，即<strong><u>只用xml管理bean，用注解进行值注入</u></strong></p>
+
+            
+        </article>
+    </div>
+    
+    <div class="nexmoe-post">
+        <a href="/2020/08/16/mybatis%E9%85%8D%E7%BD%AE%E5%85%A5%E9%97%A8/">
+            
+                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 66.66666666666666%;"> 
+                    <img data-src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/cover/5c3aec85a4343.jpg" data-sizes="auto" alt="mybatis配置入门" class="lazyload">
+                    <h1>mybatis配置入门</h1>
+                </div>
+            
+        </a>
+
+        <div class="nexmoe-post-meta nexmoe-rainbow">
+            <a><i class="nexmoefont icon-calendar-fill"></i>2020年08月15日</a>
+            <a><i class="nexmoefont icon-areachart"></i>1k 字</a>
+            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 5 分钟</a>
+        </div>
+
+        <article>
+            
+                <h2 id="mybatis配置入门"><a href="#mybatis配置入门" class="headerlink" title="mybatis配置入门"></a>mybatis配置入门</h2><h3 id="1-创建maven工程并导入坐标（依赖）"><a href="#1-创建maven工程并导入坐标（依赖）" class="headerlink" title="1.创建maven工程并导入坐标（依赖）"></a>1.创建maven工程并导入坐标（依赖）</h3><p><em>pom.xml的配置实例</em></p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;org.example&lt;/groupId&gt;
+    &lt;artifactId&gt;mybatis_day1&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+            &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+            &lt;version&gt;3.4.5&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;mysql&lt;/groupId&gt;
+            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+            &lt;version&gt;8.0.16&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;log4j&lt;/groupId&gt;
+            &lt;artifactId&gt;log4j&lt;/artifactId&gt;
+            &lt;version&gt;1.2.17&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;4.12&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    &lt;!-- 以下build语句帮助将xml文件打包，用以解决找不到xml文件的错误--&gt;
+    &lt;build&gt;
+        &lt;resources&gt;
+            &lt;resource&gt;
+                &lt;directory&gt;src/main/java&lt;/directory&gt;
+                &lt;includes&gt;
+                    &lt;include&gt;**/*.xml&lt;/include&gt;
+                &lt;/includes&gt;
+            &lt;/resource&gt;
+        &lt;/resources&gt;
+    &lt;/build&gt;
+
+&lt;/project&gt;</code></pre>
+<h3 id="2-创建实体类与dao接口"><a href="#2-创建实体类与dao接口" class="headerlink" title="2.创建实体类与dao接口"></a>2.创建实体类与dao接口</h3><h3 id="3-创建映射文件"><a href="#3-创建映射文件" class="headerlink" title="3.创建映射文件"></a>3.创建映射文件</h3><p>​    <em>Mapper.xml约束</em></p>
+<pre><code class="xml"> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+ &lt;!DOCTYPE mapper  
+             PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;  
+             &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</code></pre>
+<h3 id="4-创建Mybatis主配置文件SqlMapConfig-xml"><a href="#4-创建Mybatis主配置文件SqlMapConfig-xml" class="headerlink" title="4.创建Mybatis主配置文件SqlMapConfig.xml"></a>4.创建Mybatis主配置文件SqlMapConfig.xml</h3><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE configuration
+        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
+&lt;!-- 主配置文件--&gt;
+&lt;configuration&gt;
+    &lt;!-- 配置环境--&gt;
+    &lt;environments default=&quot;mysql&quot;&gt;
+        &lt;!-- 配置mysql环境--&gt;
+        &lt;environment id=&quot;mysql&quot;&gt;
+            &lt;!-- 配置事务类型--&gt;
+            &lt;transactionManager type=&quot;JDBC&quot;&gt;&lt;/transactionManager&gt;
+            &lt;!-- 配置数据源（连接池）--&gt;
+            &lt;dataSource type=&quot;POOLED&quot;&gt;
+                &lt;!-- 配置数据库四个基本信息--&gt;
+                &lt;!-- 最新的driver所在包路径增加了一层，不再是&quot;com.mysql.jdbc.Driver&quot;，报错：`com.mysql.jdbc.Driver&#39;.                 This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver&#39;.--&gt;
+                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot;/&gt;
+                &lt;!-- 此处添加?serverTimezone=UTC，解决了时区报错问题The server time zone value &#39;�й���׼ʱ��&#39; is                 unrecognized or represents more than one time zone--&gt;
+                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/test?serverTimezone=UTC&quot;/&gt;
+                &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;
+                &lt;property name=&quot;password&quot; value=&quot;root&quot;/&gt;
+            &lt;/dataSource&gt;
+        &lt;/environment&gt;
+    &lt;/environments&gt;
+
+    &lt;!-- 指定映射配置文件，映射文件指的是每个dao独立的配置文件--&gt;
+    &lt;mappers&gt;
+        &lt;mapper resource=&quot;com/wang/dao/iCustomerDao.xml&quot;/&gt;
+    &lt;/mappers&gt;
+&lt;/configuration&gt;</code></pre>
+<h3 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h3><ol>
+    <li>dao与mapper的意思是一样的</li>
+    <li>映射文件位置需要与接口的包结构一致</li>
+    <li>namespace=""中填入mapper接口的全限定名</li>
+    <li>映射文件的操作配置（select），id取值为接口中的方法名</li>
+</ol>
+
+<h3 id="报错："><a href="#报错：" class="headerlink" title="报错："></a>报错：</h3><p><strong>1.No constructor found in…</strong>    </p>
+<p>​    这是由是构造方法引起的异常，经测试，当引用的实体重构了构造方法之后就会出现这个问题，因为mybatis需要用到默认构造方        法，明确一个默认构造方法即可解决。示例如下：</p>
+<pre><code class="java">        public MyEntity(){
+                super();
+            }</code></pre>
+<p><strong>2.resourece not found</strong></p>
+<p>​    这是由于部分路径下的文件不会默认加载导致的，Mybatis下可尝试如此解决</p>
+<pre><code class="xml">&lt;build&gt;
+        &lt;resources&gt;
+            &lt;resource&gt;
+                &lt;directory&gt;src/main/java&lt;/directory&gt;
+                &lt;includes&gt;
+                    &lt;include&gt;**/*.xml&lt;/include&gt;
+                &lt;/includes&gt;
+            &lt;/resource&gt;
+        &lt;/resources&gt;
+    &lt;/build&gt;</code></pre>
+<p><strong>3.Error：java：不再支持源选项5，请使用6或更高版本</strong></p>
+<p>​    这个错误是因为maven默认项目是JDK5，而maven不再支持java1.5，链接中将版本修改成了1.8，我们可以改成自己的版本。</p>
+<p>​                  –&gt;<a herf=https://www.cnblogs.com/yangxiao-/p/12505769.html>参考链接</a> &lt;–</p>
+<p>总结起来有四</p>
+<p>  1)Setting-&gt;Complier-&gt;java complier-&gt;11<br>  2)Project Structure-&gt;project=11<br>  3)Project Structure-&gt;Model-&gt;Language Level=11<br>  4)编辑修改yml设定</p>
+
+            
+        </article>
+    </div>
     
     <div class="nexmoe-post">
         <a href="/2020/08/09/%E6%9E%81%E9%80%9Fspring%E4%B8%8A%E6%89%8B/">
@@ -188,6 +674,45 @@
 &lt;/mapper&gt;</code></pre>
 <p><strong>5.service包下建立UserService类</strong></p>
 <p>​    创建UserMapper对象，调用其方法</p>
+
+            
+        </article>
+    </div>
+    
+    <div class="nexmoe-post">
+        <a href="/2020/07/25/CentOS7%E4%B8%8B%E7%AE%80%E6%98%93C++%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/">
+            
+                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 66.66666666666666%;"> 
+                    <img data-src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/cover/5c3aec85a4343.jpg" data-sizes="auto" alt="CentOS7下简易C++环境安装与配置" class="lazyload">
+                    <h1>CentOS7下简易C++环境安装与配置</h1>
+                </div>
+            
+        </a>
+
+        <div class="nexmoe-post-meta nexmoe-rainbow">
+            <a><i class="nexmoefont icon-calendar-fill"></i>2020年07月24日</a>
+            <a><i class="nexmoefont icon-areachart"></i>144 字</a>
+            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
+        </div>
+
+        <article>
+            
+                <h2 id="CentOS7下简易C-环境安装与配置"><a href="#CentOS7下简易C-环境安装与配置" class="headerlink" title="CentOS7下简易C++环境安装与配置"></a>CentOS7下简易C++环境安装与配置</h2><h3 id="创建好虚拟机，配置好网卡后即可在终端进行配置"><a href="#创建好虚拟机，配置好网卡后即可在终端进行配置" class="headerlink" title="创建好虚拟机，配置好网卡后即可在终端进行配置"></a>创建好虚拟机，配置好网卡后即可在终端进行配置</h3><p>yum命令配置更新</p>
+<pre><code class="xml">[root@localhost share]# yum install -y epel-release
+yum update</code></pre>
+<p>yum下载加速插件</p>
+<pre><code class="xml">sudo yum install yum-axelget</code></pre>
+<p>开发工具包</p>
+<pre><code class="xml">sudo yum groupinstall &quot;Development tools&quot;</code></pre>
+<p>补充未下载的相关组件</p>
+<pre><code class="xml">sudo yum install gcc                     # C 编译器
+sudo yum install gcc-c++                 # C++ 编译器
+sudo yum install gdb                     # 代码调试器
+sudo yum install clang                      # clang 编译器
+sudo yum install clang-analyzer          # clang 静态分析器
+sudo yum install make                   </code></pre>
+<p>codeblocks，基础的C++编辑IDE</p>
+<pre><code class="xml">sudo yum install codeblocks</code></pre>
 
             
         </article>
@@ -810,25 +1335,24 @@
     </div>
     
     <div class="nexmoe-post">
-        <a href="/2020/04/26/Hello/">
+        <a href="/2020/04/25/HexoHeader/">
             
                 <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 66.66666666666666%;"> 
-                    <img data-src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/cover/5c3aec85a4343.jpg" data-sizes="auto" alt="你好，世界" class="lazyload">
-                    <h1>你好，世界</h1>
+                    <img data-src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/cover/5c3aec85a4343.jpg" data-sizes="auto" alt="HexoHeader" class="lazyload">
+                    <h1>HexoHeader</h1>
                 </div>
             
         </a>
 
         <div class="nexmoe-post-meta nexmoe-rainbow">
             <a><i class="nexmoefont icon-calendar-fill"></i>2020年04月25日</a>
-            <a><i class="nexmoefont icon-areachart"></i>5 字</a>
+            <a><i class="nexmoefont icon-areachart"></i>0 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
         </div>
 
         <article>
             
-                <p>This’s a test documentation</p>
-
+                
             
         </article>
     </div>
@@ -839,7 +1363,7 @@
   </div>
   <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<!--<script src="/js/app.js?v=1599532960100"></script>-->
+<!--<script src="/js/app.js?v=1599539529242"></script>-->
 
 
     <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>

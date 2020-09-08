@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+  
+  <title>mybatis配置入门 - Siori&#39;s blog</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="志存高远，脚踏实地">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  
+  
+
+  <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/Orekisiori/Orekisiori.github.io/Images/favicon.ico" type="image/png" />
+  <meta name="description" content="mybatis配置入门1.创建maven工程并导入坐标（依赖）pom.xml的配置实例 &lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt; &lt;project xmlns&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0&quot;          xmlns:xsi&#x3D;&quot;ht">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mybatis配置入门">
+<meta property="og:url" content="http://yoursite.com/2020/08/16/mybatis%E9%85%8D%E7%BD%AE%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="Siori&#39;s blog">
+<meta property="og:description" content="mybatis配置入门1.创建maven工程并导入坐标（依赖）pom.xml的配置实例 &lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt; &lt;project xmlns&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0&quot;          xmlns:xsi&#x3D;&quot;ht">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-15T19:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-08T04:27:55.539Z">
+<meta property="article:author" content="OrekiSiori">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
+  
+  <!--<link rel="stylesheet" href="/css/style.css?v=1599539529218">-->
+
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="mdui-drawer-body-left">
+  
+  <div id="nexmoe-background">
+    <div class="nexmoe-bg" style="background-image: url(https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/cover/5c3aec85a4343.jpg)"></div>
+    <div class="mdui-appbar mdui-shadow-0">
+      <div class="mdui-toolbar">
+        <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+        <div class="mdui-toolbar-spacer"></div>
+        <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+        <a href="/" title="OrekiSiori" class="mdui-btn mdui-btn-icon"><img src="https://cdn.jsdelivr.net/gh/Orekisiori/Orekisiori.github.io/Images/Ogi.png" alt="OrekiSiori"></a>
+       </div>
+    </div>
+  </div>
+  <div id="nexmoe-header">
+      <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="OrekiSiori">
+            <img src="https://cdn.jsdelivr.net/gh/Orekisiori/Orekisiori.github.io/Images/Ogi.png" alt="OrekiSiori" alt="OrekiSiori">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>8</div>
+        <div><span>标签</span>3</div>
+        <div><span>分类</span>1</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/archives" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">社交按钮</h3>
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://space.bilibili.com/37934192" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
+            <i class="nexmoefont icon-bilibili"></i>
+        </a><a class="mdui-ripple" href="https://github.com/Orekisiori" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章分类</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Tech/">Tech</a>
+          <span class="category-list-count">7</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">标签云</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/C-C/" style="font-size: 10px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/java/" style="font-size: 20px;">java</a>
+    </div>
+    
+  </div>
+
+  
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2020 OrekiSiori
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://nexmoe.com/hexo-theme-nexmoe.html" target="_blank">Nexmoe</a>
+    </div>
+</div><!-- .nexmoe-drawer -->
+  </div>
+  <div id="nexmoe-content">
+    <div class="nexmoe-primary">
+        <div class="nexmoe-post">
+  
+      <div class="nexmoe-post-cover" style="padding-bottom: 66.66666666666666%;"> 
+          <img data-src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/cover/5c3aec85a4343.jpg" data-sizes="auto" alt="mybatis配置入门" class="lazyload">
+          <h1>mybatis配置入门</h1>
+      </div>
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2020年08月15日</a>
+    <a><i class="nexmoefont icon-areachart"></i>1k 字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 5 分钟</a>
+</div>
+
+  <div class="nexmoe-post-right">
+    
+  </div>
+
+  <article>
+    <h2 id="mybatis配置入门"><a href="#mybatis配置入门" class="headerlink" title="mybatis配置入门"></a>mybatis配置入门</h2><h3 id="1-创建maven工程并导入坐标（依赖）"><a href="#1-创建maven工程并导入坐标（依赖）" class="headerlink" title="1.创建maven工程并导入坐标（依赖）"></a>1.创建maven工程并导入坐标（依赖）</h3><p><em>pom.xml的配置实例</em></p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;org.example&lt;/groupId&gt;
+    &lt;artifactId&gt;mybatis_day1&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+            &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+            &lt;version&gt;3.4.5&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;mysql&lt;/groupId&gt;
+            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+            &lt;version&gt;8.0.16&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;log4j&lt;/groupId&gt;
+            &lt;artifactId&gt;log4j&lt;/artifactId&gt;
+            &lt;version&gt;1.2.17&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;4.12&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    &lt;!-- 以下build语句帮助将xml文件打包，用以解决找不到xml文件的错误--&gt;
+    &lt;build&gt;
+        &lt;resources&gt;
+            &lt;resource&gt;
+                &lt;directory&gt;src/main/java&lt;/directory&gt;
+                &lt;includes&gt;
+                    &lt;include&gt;**/*.xml&lt;/include&gt;
+                &lt;/includes&gt;
+            &lt;/resource&gt;
+        &lt;/resources&gt;
+    &lt;/build&gt;
+
+&lt;/project&gt;</code></pre>
+<h3 id="2-创建实体类与dao接口"><a href="#2-创建实体类与dao接口" class="headerlink" title="2.创建实体类与dao接口"></a>2.创建实体类与dao接口</h3><h3 id="3-创建映射文件"><a href="#3-创建映射文件" class="headerlink" title="3.创建映射文件"></a>3.创建映射文件</h3><p>​    <em>Mapper.xml约束</em></p>
+<pre><code class="xml"> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+ &lt;!DOCTYPE mapper  
+             PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;  
+             &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</code></pre>
+<h3 id="4-创建Mybatis主配置文件SqlMapConfig-xml"><a href="#4-创建Mybatis主配置文件SqlMapConfig-xml" class="headerlink" title="4.创建Mybatis主配置文件SqlMapConfig.xml"></a>4.创建Mybatis主配置文件SqlMapConfig.xml</h3><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE configuration
+        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
+&lt;!-- 主配置文件--&gt;
+&lt;configuration&gt;
+    &lt;!-- 配置环境--&gt;
+    &lt;environments default=&quot;mysql&quot;&gt;
+        &lt;!-- 配置mysql环境--&gt;
+        &lt;environment id=&quot;mysql&quot;&gt;
+            &lt;!-- 配置事务类型--&gt;
+            &lt;transactionManager type=&quot;JDBC&quot;&gt;&lt;/transactionManager&gt;
+            &lt;!-- 配置数据源（连接池）--&gt;
+            &lt;dataSource type=&quot;POOLED&quot;&gt;
+                &lt;!-- 配置数据库四个基本信息--&gt;
+                &lt;!-- 最新的driver所在包路径增加了一层，不再是&quot;com.mysql.jdbc.Driver&quot;，报错：`com.mysql.jdbc.Driver&#39;.                 This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver&#39;.--&gt;
+                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot;/&gt;
+                &lt;!-- 此处添加?serverTimezone=UTC，解决了时区报错问题The server time zone value &#39;�й���׼ʱ��&#39; is                 unrecognized or represents more than one time zone--&gt;
+                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/test?serverTimezone=UTC&quot;/&gt;
+                &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;
+                &lt;property name=&quot;password&quot; value=&quot;root&quot;/&gt;
+            &lt;/dataSource&gt;
+        &lt;/environment&gt;
+    &lt;/environments&gt;
+
+    &lt;!-- 指定映射配置文件，映射文件指的是每个dao独立的配置文件--&gt;
+    &lt;mappers&gt;
+        &lt;mapper resource=&quot;com/wang/dao/iCustomerDao.xml&quot;/&gt;
+    &lt;/mappers&gt;
+&lt;/configuration&gt;</code></pre>
+<h3 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h3><ol>
+    <li>dao与mapper的意思是一样的</li>
+    <li>映射文件位置需要与接口的包结构一致</li>
+    <li>namespace=""中填入mapper接口的全限定名</li>
+    <li>映射文件的操作配置（select），id取值为接口中的方法名</li>
+</ol>
+
+<h3 id="报错："><a href="#报错：" class="headerlink" title="报错："></a>报错：</h3><p><strong>1.No constructor found in…</strong>    </p>
+<p>​    这是由是构造方法引起的异常，经测试，当引用的实体重构了构造方法之后就会出现这个问题，因为mybatis需要用到默认构造方        法，明确一个默认构造方法即可解决。示例如下：</p>
+<pre><code class="java">        public MyEntity(){
+                super();
+            }</code></pre>
+<p><strong>2.resourece not found</strong></p>
+<p>​    这是由于部分路径下的文件不会默认加载导致的，Mybatis下可尝试如此解决</p>
+<pre><code class="xml">&lt;build&gt;
+        &lt;resources&gt;
+            &lt;resource&gt;
+                &lt;directory&gt;src/main/java&lt;/directory&gt;
+                &lt;includes&gt;
+                    &lt;include&gt;**/*.xml&lt;/include&gt;
+                &lt;/includes&gt;
+            &lt;/resource&gt;
+        &lt;/resources&gt;
+    &lt;/build&gt;</code></pre>
+<p><strong>3.Error：java：不再支持源选项5，请使用6或更高版本</strong></p>
+<p>​    这个错误是因为maven默认项目是JDK5，而maven不再支持java1.5，链接中将版本修改成了1.8，我们可以改成自己的版本。</p>
+<p>​                  –&gt;<a herf=https://www.cnblogs.com/yangxiao-/p/12505769.html>参考链接</a> &lt;–</p>
+<p>总结起来有四</p>
+<p>  1)Setting-&gt;Complier-&gt;java complier-&gt;11<br>  2)Project Structure-&gt;project=11<br>  3)Project Structure-&gt;Model-&gt;Language Level=11<br>  4)编辑修改yml设定</p>
+
+  </article>
+
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/Tech/">Tech</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -link" href="/tags/java/" rel="tag">java</a>
+    
+</div>
+
+  <div class="nexmoe-post-footer">
+    
+      
+  <div class="nexmoe-post-copyright">
+    <strong>本文作者：</strong>OrekiSiori<br>
+    <strong>本文链接：</strong><a href="http://yoursite.com/2020/08/16/mybatis%E9%85%8D%E7%BD%AE%E5%85%A5%E9%97%A8/" title="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;08&#x2F;16&#x2F;mybatis%E9%85%8D%E7%BD%AE%E5%85%A5%E9%97%A8&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;08&#x2F;16&#x2F;mybatis%E9%85%8D%E7%BD%AE%E5%85%A5%E9%97%A8&#x2F;</a><br>
+    
+      <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+    
+  </div>
+
+
+    
+    <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
+</section>
+  </div>
+</div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!--<script src="/js/app.js?v=1599539529219"></script>-->
+
+
+    <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
+
+
+
+  
+
+
+
+
+
+</body>
+
+</html>
