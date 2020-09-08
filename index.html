@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
   
-  <!--<link rel="stylesheet" href="/css/style.css?v=1592020788752">-->
+  <!--<link rel="stylesheet" href="/css/style.css?v=1599532960099">-->
 
   
 <meta name="generator" content="Hexo 4.2.0"></head>
@@ -49,7 +49,7 @@
         </a>
     </div>
     <div class="nexmoe-count">
-        <div><span>文章</span>3</div>
+        <div><span>文章</span>4</div>
         <div><span>标签</span>2</div>
         <div><span>分类</span>2</div>
     </div>
@@ -106,7 +106,7 @@
 
         <li class="category-list-item">
           <a class="category-list-link" href="/categories/Tech/">Tech</a>
-          <span class="category-list-count">2</span>
+          <span class="category-list-count">3</span>
         </li>
 
         
@@ -138,6 +138,60 @@
   <div id="nexmoe-content">
     <div class="nexmoe-primary">
         <section class="nexmoe-posts">
+    
+    <div class="nexmoe-post">
+        <a href="/2020/08/09/%E6%9E%81%E9%80%9Fspring%E4%B8%8A%E6%89%8B/">
+            
+                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 66.66666666666666%;"> 
+                    <img data-src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/cover/5c3aec85a4343.jpg" data-sizes="auto" alt="极速spring上手" class="lazyload">
+                    <h1>极速spring上手</h1>
+                </div>
+            
+        </a>
+
+        <div class="nexmoe-post-meta nexmoe-rainbow">
+            <a><i class="nexmoefont icon-calendar-fill"></i>2020年08月08日</a>
+            <a><i class="nexmoefont icon-areachart"></i>236 字</a>
+            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
+        </div>
+
+        <article>
+            
+                <p><strong>1.配置数据库链接</strong></p>
+<p><em>application.properties-&gt;application.yml</em></p>
+<pre><code class="java">      server:    
+          port: 9001
+    spring:
+          datasource:
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            url: jdbc:mysql://127.0.0.1:3306/库名?characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone=UTC
+            username: root
+               password: root
+
+    mybatis:
+          mapper-locations: classpath:mapper/*.xml</code></pre>
+<p><strong>2.controller包下建立控制器类，编写方法</strong></p>
+<p>​    e.g.  main&gt;java&gt;com.test.demo&gt;controller&gt;UserController</p>
+<p>​    创建UserService对象，调用其方法</p>
+<p><strong>3.entity包下建立实体类</strong></p>
+<blockquote>
+<p>​    <strong>注意与数据库字段保持一致！！！</strong></p>
+</blockquote>
+<p><strong>4.mapper包下建立UserMapper接口，并编写其xml配置文件（位置resources&gt;mapper&gt;UserMapper.xml）</strong></p>
+<p>​    编写底层方法与sql语句</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot; &gt;
+&lt;mapper namespace=&quot;UserMapper路径&quot;&gt;
+    &lt;select id=&quot;方法名&quot; resultType=&quot;返回类型&quot;&gt;
+        SELECT * FROM user
+    &lt;/select&gt;
+&lt;/mapper&gt;</code></pre>
+<p><strong>5.service包下建立UserService类</strong></p>
+<p>​    创建UserMapper对象，调用其方法</p>
+
+            
+        </article>
+    </div>
     
     <div class="nexmoe-post">
         <a href="/2020/06/14/java%20route%20map/">
@@ -785,7 +839,7 @@
   </div>
   <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<!--<script src="/js/app.js?v=1592020788753"></script>-->
+<!--<script src="/js/app.js?v=1599532960100"></script>-->
 
 
     <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
